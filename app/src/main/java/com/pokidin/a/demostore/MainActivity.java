@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Category> mCategories;
 
+    String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
+            "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
+            "Bambo", "Bigebia", "Sub ba Ba", "Sika Kaka", "Massakakigha", "Durabanga", "Subbue"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 "22w1n5abtj7tjj8y2f9kuqas").enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                Log.d(TAG, "onResponse checked");
                 mCategories.addAll(response.body());
                 Log.d(TAG, "Size: " + mCategories.size());
             }
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                this, R.layout.support_simple_spinner_dropdown_item, getCategoriesName(mCategories));
+                this, R.layout.support_simple_spinner_dropdown_item, cater);
         spinner.setAdapter(categoryAdapter);
     }
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < categories.size(); i++) {
             categoriesName[i] = categories.get(0).getResults().get(i).getCategoryName();
             Log.d(TAG, "Size: " + categories.size());
-            Log.d(TAG, categories.get(0).getResults().get(i).getCategoryName().toString());
+            Log.d(TAG, categories.get(0).getResults().get(i).getCategoryName());
         }
         return categoriesName;
     }
