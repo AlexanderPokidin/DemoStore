@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface StoreApi {
+public interface ItemStoreApi {
 
     @GET("/v2/{first_field}/{second_field}")
     Call<List<Item>> getItems(@Path ("first_field") String firstField,
