@@ -2,6 +2,8 @@ package com.pokidin.a.demostore;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Debug Run";
 
     private List<Category> mCategories;
+    private List<Item> mItems;
+    RecyclerView mRecyclerView;
 
     String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
             "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
@@ -32,7 +36,29 @@ public class MainActivity extends AppCompatActivity {
 
         final Spinner spinner = findViewById(R.id.spinCategories);
 
+        mItems = new ArrayList<>();
         mCategories = new ArrayList<>();
+
+        mRecyclerView = findViewById(R.id.rvItems);
+        GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        ItemAdapter itemAdapter = new ItemAdapter(mItems);
+        mRecyclerView.setAdapter(itemAdapter);
+
+        RestClient.getItemApi().getItems("listings", "active",
+                "22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
+                .enqueue(new Callback<List<Item>>() {
+                    @Override
+                    public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                        mItems.addAll(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Item>> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         RestClient.getCategoryStoreApi().getCategories("taxonomy", "categories",
                 "22w1n5abtj7tjj8y2f9kuqas").enqueue(new Callback<List<Category>>() {
