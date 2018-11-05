@@ -52,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                         mItems.addAll(response.body());
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
                     }
 
                     @Override
                     public void onFailure(Call<List<Item>> call, Throwable t) {
+                        Log.d(TAG, "getItems onFailure");
                         Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -65,18 +67,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 Log.d(TAG, "onResponse checked");
-                mCategories.addAll(response.body());
-                Log.d(TAG, "Size: " + mCategories.size());
+                if (response.isSuccessful()){
+                    mCategories.addAll(response.body());
+                    Log.d(TAG, "Size: " + mCategories.size());
+                } else {
+                    Log.d(TAG, "Request failed");
+                }
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
+                Log.d(TAG, "getCategories onFailure");
                 Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
             }
         });
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                this, R.layout.support_simple_spinner_dropdown_item, cater);
+                this, R.layout.support_simple_spinner_dropdown_item, getCategoriesName(mCategories));
         spinner.setAdapter(categoryAdapter);
     }
 

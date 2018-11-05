@@ -1,6 +1,7 @@
 package com.pokidin.a.demostore.api;
 
 import android.app.Application;
+import android.util.Log;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -21,6 +22,7 @@ public class RestClient extends Application {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         sCategoryStoreApi = retrofit.create(CategoryStoreApi.class);
+        sItemStoreApi = retrofit.create(ItemStoreApi.class);
     }
 
     public static CategoryStoreApi getCategoryStoreApi() {
