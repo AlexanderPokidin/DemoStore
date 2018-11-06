@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         ItemAdapter itemAdapter = new ItemAdapter(mItems);
         mRecyclerView.setAdapter(itemAdapter);
 
-        RestClient.getItemApi().getItems("listings", "active",
+        RestClient.getItemApi().getItems(//"listings", "active",
                 "22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
                 .enqueue(new Callback<List<Item>>() {
                     @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        RestClient.getCategoryStoreApi().getCategories("taxonomy", "categories",
+        RestClient.getCategoryStoreApi().getCategories(//"taxonomy", "categories",
                 "22w1n5abtj7tjj8y2f9kuqas").enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {

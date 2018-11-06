@@ -11,8 +11,9 @@ import retrofit2.http.Query;
 
 public interface CategoryStoreApi {
 
-    @GET("v2/{first_field}/{second_field}")
-    Call<List<Category>> getCategories(@Path("first_field") String firstField,
-                                       @Path("second_field") String secondField,
-                                       @Query("api_key") String apiKey);
+    @GET("v2/taxonomy/categories")
+    Call<List<Category>> getCategories(
+//            @Path("first_field") String firstField,
+//            @Path("second_field") String secondField,
+            @Query("api_key") String apiKey);
 }
