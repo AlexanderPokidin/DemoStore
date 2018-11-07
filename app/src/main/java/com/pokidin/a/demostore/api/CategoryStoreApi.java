@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface CategoryStoreApi {
 
     @GET("v2/taxonomy/categories")
-    Call<List<Category>> getCategories(
+    Call<Category> getCategories(
 //            @Path("first_field") String firstField,
 //            @Path("second_field") String secondField,
             @Query("api_key") String apiKey);
