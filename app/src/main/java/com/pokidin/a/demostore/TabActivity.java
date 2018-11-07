@@ -23,8 +23,10 @@ import android.widget.TextView;
 public class TabActivity extends AppCompatActivity {
     private static final String TAG = "TabActivity";
 
-    private SectionsPageAdapter mSectionsPageAdapter;
+//    private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class TabActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tab);
         Log.d(TAG, "onCreate: Starting");
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+//        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
