@@ -28,7 +28,7 @@ public class SearchTabFragment extends Fragment {
     private static final String TAG = "SearchTabFragment";
 
     RecyclerView mRecyclerView;
-    private List<Category> mCategories;
+    private Category mCategory = new Category();
 
     String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
             "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
@@ -48,8 +48,10 @@ public class SearchTabFragment extends Fragment {
                 Log.d(TAG, "onResponse checked");
                 Log.d(TAG, "response: " + response.code());
                 if (response.isSuccessful()) {
-                    mCategories.add(response.body());
-                    Log.d(TAG, "Size: " + mCategories.size());
+                    mCategory = response.body();
+                    Log.d(TAG, "Response is Successful: " + response.body() );
+                    Log.d(TAG, "Category class: " + mCategory );
+
                 } else {
                     Log.d(TAG, "Request failed: " + response.code() + " " + response.message());
                 }
@@ -69,23 +71,24 @@ public class SearchTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_tab, container, false);
 
         final Spinner spinner = view.findViewById(R.id.spinCategories);
-        mCategories = new ArrayList<>();
 
         mRecyclerView = view.findViewById(R.id.rvItems);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                getActivity(), R.layout.support_simple_spinner_dropdown_item, getCategoriesName(mCategories));
+                getActivity(), R.layout.support_simple_spinner_dropdown_item, getCategoriesName(mCategory));
         spinner.setAdapter(categoryAdapter);
 
         return view;
     }
 
     // TODO Check Exception: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
-    private String[] getCategoriesName(List<Category> categories) {
+    private String[] getCategoriesName(Category category) {
 
-        ArrayList<Category.Result> resultList = new ArrayList<>(categories.get(0).getResults());
+
+        ArrayList<Category.Result> resultList = new ArrayList<>();
+        resultList.addAll(category.getResults());
         String[] categoriesName = new String[resultList.size()];
 
 
@@ -93,7 +96,7 @@ public class SearchTabFragment extends Fragment {
             categoriesName[i] = resultList.get(i).getName();
 
             Log.d(TAG, "Size: " + resultList.size());
-            Log.d(TAG, categories.get(0).getResults().get(i).getCategoryName());
+            Log.d(TAG, category.getResults().get(i).getCategoryName());
         }
         return categoriesName;
     }
