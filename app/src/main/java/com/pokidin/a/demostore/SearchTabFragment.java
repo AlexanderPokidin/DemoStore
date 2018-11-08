@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.pokidin.a.demostore.api.RestClient;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +28,7 @@ public class SearchTabFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     private Category mCategory;
+    private Spinner spinner;
 
     String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
             "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
@@ -50,6 +50,7 @@ public class SearchTabFragment extends Fragment {
                 Log.d(TAG, "response: " + response.code());
                 if (response.isSuccessful()) {
                     mCategory = response.body();
+                    addSpinnerData(getCategoriesName(mCategory));
                     Log.d(TAG, "Response is Successful: " + response.body() );
                     Log.d(TAG, "Category contains: " + mCategory.getResults() );
 
@@ -65,7 +66,6 @@ public class SearchTabFragment extends Fragment {
             }
         });
         Log.d(TAG, "onCreate checked: Finish");
-
     }
 
     @Override
@@ -74,27 +74,20 @@ public class SearchTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_tab, container, false);
         Log.d(TAG, "onCreateView checked");
 
-        final Spinner spinner = view.findViewById(R.id.spinCategories);
+        spinner = view.findViewById(R.id.spinCategories);
 
         mRecyclerView = view.findViewById(R.id.rvItems);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                getActivity(), R.layout.support_simple_spinner_dropdown_item, cater);
-        spinner.setAdapter(categoryAdapter);
-        Log.d(TAG, "categoryAdapter checked");
-
         return view;
     }
 
-    // TODO Check Exception: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
     private String[] getCategoriesName(Category category) {
         Log.d(TAG, "getCategoriesName checked: Start");
 
 
-        ArrayList<Category.Result> resultList = new ArrayList<>();
-        resultList.addAll(category.getResults());
+        ArrayList<Category.Result> resultList = new ArrayList<>(category.getResults());
         String[] categoriesName = new String[resultList.size()];
 
 
@@ -109,4 +102,10 @@ public class SearchTabFragment extends Fragment {
         return categoriesName;
     }
 
+    private void addSpinnerData(String[] strings){
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
+                getActivity(), R.layout.support_simple_spinner_dropdown_item, strings);
+        spinner.setAdapter(categoryAdapter);
+        Log.d(TAG, "categoryAdapter checked");
+    }
 }
