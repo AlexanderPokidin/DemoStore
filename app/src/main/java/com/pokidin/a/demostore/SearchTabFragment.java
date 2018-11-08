@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.pokidin.a.demostore.api.RestClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +27,9 @@ import retrofit2.Response;
 public class SearchTabFragment extends Fragment {
     private static final String TAG = "SearchTabFragment";
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private Category mCategory;
+    private Item mItem;
     private Spinner spinner;
 
     String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
@@ -51,8 +53,8 @@ public class SearchTabFragment extends Fragment {
                 if (response.isSuccessful()) {
                     mCategory = response.body();
                     addSpinnerData(getCategoriesName(mCategory));
-                    Log.d(TAG, "Response is Successful: " + response.body() );
-                    Log.d(TAG, "Category contains: " + mCategory.getResults() );
+                    Log.d(TAG, "Response is Successful: " + response.body());
+                    Log.d(TAG, "Category contains: " + mCategory.getResults());
 
                 } else {
                     Log.d(TAG, "Request failed: " + response.code() + " " + response.message());
@@ -65,6 +67,23 @@ public class SearchTabFragment extends Fragment {
                 Toast.makeText(getActivity(), "An error occurred during networking", Toast.LENGTH_SHORT).show();
             }
         });
+
+        RestClient.getItemApi().getItems("22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
+                .enqueue(new Callback<Item>() {
+                    @Override
+                    public void onResponse(Call<Item> call, Response<Item> response) {
+                        mItem = response.body();
+                        addItemsToRecyclerView(mItem);
+                        mRecyclerView.getAdapter().notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Item> call, Throwable t) {
+                        Log.d(TAG, "getItems onFailure");
+                        Toast.makeText(getActivity(), "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                    }
+                });
         Log.d(TAG, "onCreate checked: Finish");
     }
 
@@ -83,17 +102,22 @@ public class SearchTabFragment extends Fragment {
         return view;
     }
 
+    private void addItemsToRecyclerView(Item item) {
+        ItemAdapter itemAdapter = new ItemAdapter(getItems(item));
+        mRecyclerView.setAdapter(itemAdapter);
+    }
+
+    private List<Item.Result> getItems(Item item) {
+        return new ArrayList<>(item.getResults());
+    }
+
     private String[] getCategoriesName(Category category) {
         Log.d(TAG, "getCategoriesName checked: Start");
 
-
         ArrayList<Category.Result> resultList = new ArrayList<>(category.getResults());
         String[] categoriesName = new String[resultList.size()];
-
-
         for (int i = 0; i < resultList.size(); i++) {
             categoriesName[i] = resultList.get(i).getName();
-
             Log.d(TAG, "Size: " + resultList.size());
             Log.d(TAG, category.getResults().get(i).getCategoryName());
         }
@@ -102,7 +126,7 @@ public class SearchTabFragment extends Fragment {
         return categoriesName;
     }
 
-    private void addSpinnerData(String[] strings){
+    private void addSpinnerData(String[] strings) {
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
                 getActivity(), R.layout.support_simple_spinner_dropdown_item, strings);
         spinner.setAdapter(categoryAdapter);

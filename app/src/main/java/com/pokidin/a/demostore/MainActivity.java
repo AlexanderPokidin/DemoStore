@@ -43,24 +43,24 @@ public class MainActivity extends AppCompatActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ItemAdapter itemAdapter = new ItemAdapter(mItems);
-        mRecyclerView.setAdapter(itemAdapter);
-
-        RestClient.getItemApi().getItems(//"listings", "active",
-                "22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
-                .enqueue(new Callback<List<Item>>() {
-                    @Override
-                    public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                        mItems.addAll(response.body());
-                        mRecyclerView.getAdapter().notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Item>> call, Throwable t) {
-                        Log.d(TAG, "getItems onFailure");
-                        Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//        ItemAdapter itemAdapter = new ItemAdapter(mItems);
+//        mRecyclerView.setAdapter(itemAdapter);
+//
+//        RestClient.getItemApi().getItems(//"listings", "active",
+//                "22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
+//                .enqueue(new Callback<List<Item>>() {
+//                    @Override
+//                    public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+//                        mItems.addAll(response.body());
+//                        mRecyclerView.getAdapter().notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<Item>> call, Throwable t) {
+//                        Log.d(TAG, "getItems onFailure");
+//                        Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
 //        RestClient.getCategoryStoreApi().getCategories(//"taxonomy", "categories",
 //                "22w1n5abtj7tjj8y2f9kuqas").enqueue(new Callback<List<Category>>() {

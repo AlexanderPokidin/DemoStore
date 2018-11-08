@@ -12,9 +12,7 @@ import retrofit2.http.Query;
 public interface ItemStoreApi {
 
     @GET("v2/listings/active")
-    Call<List<Item>> getItems(
-//            @Path("first_field") String firstField,
-//            @Path("second_field") String secondField,
+    Call<Item> getItems(
             @Query("api_key") String apiKey,
             @Query("category") String category,
             @Query("keywords") String keywords);

@@ -12,9 +12,9 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-    private List<Item> mItems;
+    private List<Item.Result> mItems;
 
-    public ItemAdapter(List<Item> items) {
+    public ItemAdapter(List<Item.Result> items) {
         mItems = items;
     }
 
@@ -27,7 +27,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = mItems.get(position);
+        Item.Result item = mItems.get(position);
         holder.titleItem.setText(item.getTitle());
         holder.imageItem.setBackgroundResource(R.mipmap.ic_launcher);
     }
