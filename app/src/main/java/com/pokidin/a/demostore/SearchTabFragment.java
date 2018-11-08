@@ -28,7 +28,7 @@ public class SearchTabFragment extends Fragment {
     private static final String TAG = "SearchTabFragment";
 
     RecyclerView mRecyclerView;
-    private Category mCategory = new Category();
+    private Category mCategory;
 
     String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
             "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
@@ -40,6 +40,7 @@ public class SearchTabFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate checked: Start");
 
         RestClient.getCategoryStoreApi().getCategories(
                 RestClient.KEY).enqueue(new Callback<Category>() {
@@ -50,7 +51,7 @@ public class SearchTabFragment extends Fragment {
                 if (response.isSuccessful()) {
                     mCategory = response.body();
                     Log.d(TAG, "Response is Successful: " + response.body() );
-                    Log.d(TAG, "Category class: " + mCategory );
+                    Log.d(TAG, "Category contains: " + mCategory.getResults() );
 
                 } else {
                     Log.d(TAG, "Request failed: " + response.code() + " " + response.message());
@@ -63,12 +64,15 @@ public class SearchTabFragment extends Fragment {
                 Toast.makeText(getActivity(), "An error occurred during networking", Toast.LENGTH_SHORT).show();
             }
         });
+        Log.d(TAG, "onCreate checked: Finish");
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_tab, container, false);
+        Log.d(TAG, "onCreateView checked");
 
         final Spinner spinner = view.findViewById(R.id.spinCategories);
 
@@ -77,14 +81,16 @@ public class SearchTabFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                getActivity(), R.layout.support_simple_spinner_dropdown_item, getCategoriesName(mCategory));
+                getActivity(), R.layout.support_simple_spinner_dropdown_item, cater);
         spinner.setAdapter(categoryAdapter);
+        Log.d(TAG, "categoryAdapter checked");
 
         return view;
     }
 
     // TODO Check Exception: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
     private String[] getCategoriesName(Category category) {
+        Log.d(TAG, "getCategoriesName checked: Start");
 
 
         ArrayList<Category.Result> resultList = new ArrayList<>();
@@ -98,6 +104,8 @@ public class SearchTabFragment extends Fragment {
             Log.d(TAG, "Size: " + resultList.size());
             Log.d(TAG, category.getResults().get(i).getCategoryName());
         }
+        Log.d(TAG, "getCategoriesName checked: Finish");
+
         return categoriesName;
     }
 
