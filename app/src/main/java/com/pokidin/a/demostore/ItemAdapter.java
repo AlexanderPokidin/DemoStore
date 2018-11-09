@@ -48,7 +48,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             imageItem = itemView.findViewById(R.id.imgItem);
-            titleItem = imageItem.findViewById(R.id.tvTitle);
+            titleItem = itemView.findViewById(R.id.tvTitle);
         }
     }
 }
