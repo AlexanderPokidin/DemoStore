@@ -1,5 +1,6 @@
 package com.pokidin.a.demostore;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -28,8 +31,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Item.Result item = mItems.get(position);
+        Uri uri = Uri.parse(item.getMainImage().getUrlFullxfull());
         holder.titleItem.setText(item.getTitle());
-        holder.imageItem.setBackgroundResource(R.mipmap.ic_launcher);
+        holder.imageItem.setImageURI(uri);
+//        holder.imageItem.setBackgroundResource(R.mipmap.ic_launcher);
     }
 
     @Override

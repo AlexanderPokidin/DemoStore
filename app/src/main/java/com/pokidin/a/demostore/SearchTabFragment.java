@@ -68,7 +68,7 @@ public class SearchTabFragment extends Fragment {
             }
         });
 
-        RestClient.getItemApi().getItems("22w1n5abtj7tjj8y2f9kuqas", "paper_goods", "terminator")
+        RestClient.getItemApi().getItems("22w1n5abtj7tjj8y2f9kuqas", "children", "terminator", "MainImage")
                 .enqueue(new Callback<Item>() {
                     @Override
                     public void onResponse(Call<Item> call, Response<Item> response) {

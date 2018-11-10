@@ -15,5 +15,6 @@ public interface ItemStoreApi {
     Call<Item> getItems(
             @Query("api_key") String apiKey,
             @Query("category") String category,
-            @Query("keywords") String keywords);
+            @Query("keywords") String keywords,
+            @Query("includes") String image);
 }
