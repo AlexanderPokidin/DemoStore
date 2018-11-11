@@ -32,10 +32,6 @@ public class SearchTabFragment extends Fragment {
     private Item mItem;
     private Spinner spinner;
 
-    String[] cater = {"Lask", "Mask", "Task", "Empir", "Bigbag", "Tongo", "HrukHru", "Sima Karamba",
-            "Dumba Dumba", "Harabumba", "Chock Bock", "Belanock", "Duda Puda", "Hryda Juda", "Dzga",
-            "Bambo", "Bigebia", "Sub ba Ba", "Sika Kaka", "Massakakigha", "Durabanga", "Subbue"};
-
     public SearchTabFragment() {
     }
 
